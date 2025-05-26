@@ -1,0 +1,27 @@
+{
+  "name": "@samland-gov/frontend",
+  "version": "1.0.0",
+  "description": "Samland Government Frontend library, a fork of GOV.UK Frontend, providing reusable components and styles for building Samland Government websites.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Samland-Gov/frontend.git"
+  },
+  "keywords": [
+    "Samland",
+    "Government",
+    "Frontend",
+    "GOV.UK",
+    "scss",
+    "Astro"
+  ],
+  "author": "Samland Government",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Samland-Gov/frontend/issues"
+  },
+  "homepage": "https://github.com/Samland-Gov/frontend#readme"
+}
