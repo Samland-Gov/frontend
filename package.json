@@ -1,11 +1,18 @@
 {
   "name": "@samland-gov/frontend",
+  "type": "module",
   "version": "1.0.0",
   "description": "Samland Government Frontend library, a fork of GOV.UK Frontend, providing reusable components and styles for building Samland Government websites.",
-  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "rollup -c",
+    "clean": "rm -rf dist"
   },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "style": "dist/styles.css",
+  "files": [
+    "dist"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Samland-Gov/frontend.git"
@@ -23,5 +30,20 @@
   "bugs": {
     "url": "https://github.com/Samland-Gov/frontend/issues"
   },
-  "homepage": "https://github.com/Samland-Gov/frontend#readme"
+  "homepage": "https://github.com/Samland-Gov/frontend#readme",
+  "dependencies": {
+    "@x-govuk/govuk-prototype-components": "^4.0.0",
+    "govuk-frontend": "^5.10.1",
+    "markdown-it": "^14.1.0",
+    "markdown-it-govuk": "^0.5.0",
+    "sass": "^1.89.0",
+    "typescript": "^5.8.3"
+  },
+  "devDependencies": {
+    "@rollup/plugin-node-resolve": "^16.0.1",
+    "@rollup/plugin-typescript": "^12.1.2",
+    "@types/markdown-it": "^14.1.2",
+    "rollup": "^4.41.1",
+    "rollup-plugin-sass": "^1.15.2"
+  }
 }
