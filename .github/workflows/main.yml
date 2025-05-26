@@ -40,7 +40,7 @@ jobs:
           RELEASE_NOTES_FILE="docs/changelog/v${VERSION}.md"
           if [ -f "$RELEASE_NOTES_FILE" ]; then
             RELEASE_NOTES=$(cat "$RELEASE_NOTES_FILE")
-            echo "RELEASE_NOTES=$RELEASE_NOTES" >> $GITHUB_OUTPUT
+            printf "RELEASE_NOTES=%s\n" "$RELEASE_NOTES" >> $GITHUB_OUTPUT
           else
             echo "RELEASE_NOTES=Release notes not found." >> $GITHUB_OUTPUT
           fi
