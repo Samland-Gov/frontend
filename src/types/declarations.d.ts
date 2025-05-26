@@ -8,6 +8,6 @@ declare module 'govuk-frontend' {
     export function initAll(): void;
 }
 
-declare module '@x-govuk/govuk-prototype-components/src/x-govuk/index.js' {
+declare module '@x-govuk/govuk-prototype-components' {
     export function initAll(): void;
 }

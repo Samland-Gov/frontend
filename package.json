@@ -1,6 +1,6 @@
 {
   "name": "@samland-gov/frontend",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Samland Government Frontend library, a fork of GOV.UK Frontend, providing reusable components and styles for building Samland Government websites.",
   "scripts": {
     "build": "npm run build:js && npm run build:css && npm run build:types",
