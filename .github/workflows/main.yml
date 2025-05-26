@@ -39,15 +39,29 @@ jobs:
           VERSION=${GITHUB_REF#refs/tags/v}
           RELEASE_NOTES_FILE="docs/changelog/v${VERSION}.md"
           if [ -f "$RELEASE_NOTES_FILE" ]; then
-            RELEASE_NOTES=$(cat "$RELEASE_NOTES_FILE")
-            printf "RELEASE_NOTES=%s\n" "$RELEASE_NOTES" >> $GITHUB_OUTPUT
+            # Use a heredoc to preserve newlines properly
+            {
+              echo "RELEASE_NOTES<<EOF"
+              cat "$RELEASE_NOTES_FILE"
+              echo "EOF"
+            } >> "$GITHUB_OUTPUT"
           else
-            echo "RELEASE_NOTES=Release notes not found." >> $GITHUB_OUTPUT
+            echo "RELEASE_NOTES=Release notes not found." >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Create Release and Upload Asset
+      - name: Create Release Archive
+        run: |
+          VERSION=${GITHUB_REF#refs/tags/v}
+          tar -czf "dist-v${VERSION}.tar.gz" -C dist .
+
+      - name: Create GitHub Release and Upload Archive
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           VERSION=${GITHUB_REF#refs/tags/v}
-          gh release create "v${VERSION}" --title "Release v${VERSION}" --notes "${{ steps.load_release_notes.outputs.RELEASE_NOTES }}" ./dist
+          NOTES="${{ steps.load_release_notes.outputs.RELEASE_NOTES }}"
+          echo "$NOTES" > release_notes.md
+          gh release create "v${VERSION}" \
+            --title "Release v${VERSION}" \
+            --notes-file release_notes.md \
+            "dist-v${VERSION}.tar.gz"
