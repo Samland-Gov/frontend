@@ -1,0 +1,59 @@
+name: Publish to NPM and Create GitHub Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build
+        run: npm run build
+
+      - name: Publish to NPM
+        run: npm publish ./dist
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Load Release Notes
+        id: load_release_notes
+        run: |
+          VERSION=${GITHUB_REF#refs/tags/v}
+          RELEASE_NOTES_FILE="docs/changelog/v${VERSION}.md"
+          if [ -f "$RELEASE_NOTES_FILE" ]; then
+            RELEASE_NOTES=$(cat "$RELEASE_NOTES_FILE")
+            echo "::set-output name=release_notes::$RELEASE_NOTES"
+          else
+            echo "Release notes file not found: $RELEASE_NOTES_FILE"
+            echo "::set-output name=release_notes::Release notes not found."
+          fi
+
+      - name: Create GitHub Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref_name }}
+          body: ${{ steps.load_release_notes.outputs.release_notes }}
+          draft: false
+          prerelease: false

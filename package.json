@@ -1,15 +1,18 @@
 {
   "name": "@samland-gov/frontend",
-  "type": "module",
   "version": "1.0.0",
   "description": "Samland Government Frontend library, a fork of GOV.UK Frontend, providing reusable components and styles for building Samland Government websites.",
   "scripts": {
-    "build": "rollup -c",
-    "clean": "rm -rf dist"
+    "build": "npm run build:js && npm run build:css && npm run build:types",
+    "build:js": "babel src --out-dir dist --extensions \".ts,.tsx\" --source-maps inline --ignore \"**/*.d.ts\"",
+    "build:css": "sass src/styles/index.scss dist/index.css",
+    "build:types": "tsc --emitDeclarationOnly",
+    "clean": "node -e \"fs.rmSync('dist', { recursive: true, force: true });\"",
+    "prepare": "npm run build"
   },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "style": "dist/styles.css",
+  "style": "dist/index.css",
   "files": [
     "dist"
   ],
@@ -36,14 +39,15 @@
     "govuk-frontend": "^5.10.1",
     "markdown-it": "^14.1.0",
     "markdown-it-govuk": "^0.5.0",
-    "sass": "^1.89.0",
-    "typescript": "^5.8.3"
+    "tslib": "^2.8.1"
   },
   "devDependencies": {
-    "@rollup/plugin-node-resolve": "^16.0.1",
-    "@rollup/plugin-typescript": "^12.1.2",
+    "@babel/cli": "^7.27.2",
+    "@babel/core": "^7.27.1",
+    "@babel/preset-env": "^7.27.2",
+    "@babel/preset-typescript": "^7.27.1",
     "@types/markdown-it": "^14.1.2",
-    "rollup": "^4.41.1",
-    "rollup-plugin-sass": "^1.15.2"
+    "sass": "^1.89.0",
+    "typescript": "^5.8.3"
   }
 }
